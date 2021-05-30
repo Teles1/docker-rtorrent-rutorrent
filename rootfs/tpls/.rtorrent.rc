@@ -1,6 +1,3 @@
-network.scgi.open_local = /var/run/rtorrent/scgi.socket
-session.path.set = /data/rtorrent/.session/
-
 # Maximum and minimum number of peers to connect to per torrent
 throttle.min_peers.normal.set = 1
 throttle.max_peers.normal.set = 100
@@ -67,27 +64,3 @@ method.set_key = event.download.finished,move_complete,"d.move_to_complete=$d.da
 
 # Erase data when torrent deleted (no need erasedata plugin on ruTorrent)
 method.set_key = event.download.erased,delete_erased,"execute=rm,-rf,--,$d.data_path="
-
-#
-# PyroScope SETTINGS
-#
-
-# `system.has` polyfill (the "false=" silences the `catch` command, in rTorrent-PS)
-catch = {"false=", "method.redirect=system.has,false"}
-
-# Set "pyro.extended" to 1 to activate rTorrent-PS features!
-# (the automatic way used here only works with rTorrent-PS builds after 2018-05-30)
-method.insert = pyro.extended, const|value, (system.has, rtorrent-ps)
-
-# Set "pyro.bin_dir" to the "bin" directory where you installed the pyrocore tools!
-# Make sure you end it with a "/"; if this is left empty, then the shell's path is searched.
-method.insert = pyro.bin_dir, string|const,
-
-# Remove the ".default" if you want to change something (else your changes
-# get over-written on update, when you put them into ``*.default`` files).
-import = ~/.pyroscope/rtorrent-pyro.rc.default
-
-# TORQUE: Daemon watchdog schedule
-# Must be activated by touching the "~/.pyroscope/run/pyrotorque" file!
-# Set the second argument to "-v" or "-q" to change log verbosity.
-schedule = pyro_watchdog,30,300,"pyro.watchdog=~/.pyroscope,"
