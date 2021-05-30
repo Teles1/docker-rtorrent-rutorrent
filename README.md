@@ -1,3 +1,11 @@
+Based on crazy-max's [rtorrent-rutorrent](https://github.com/crazy-max/docker-rtorrent-rutorrent) Docker image, with added support for [autodl-irssi](https://github.com/autodl-community/autodl-irssi) and [pyrocore](https://github.com/autodl-community/autodl-irssi).
+
+If you're moving from another rtorrent/rutorrent image to this, you might want to [add missing data to your rtorrent session](https://pyrocore.readthedocs.io/en/latest/setup.html#adding-missing-data-to-your-rtorrent-session).
+
+Below is the README from crazy-max's image.
+
+___
+
 <p align="center"><a href="https://github.com/crazy-max/docker-rtorrent-rutorrent" target="_blank"><img height="128" src="https://raw.githubusercontent.com/crazy-max/docker-rtorrent-rutorrent/master/.github/docker-rtorrent-rutorrent.jpg"></a></p>
 
 <p align="center">
@@ -18,28 +26,29 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 ___
 
-* [Features](#features)
-* [Build locally](#build-locally)
-* [Image](#image)
-* [Environment variables](#environment-variables)
-  * [General](#general)
-  * [rTorrent](#rtorrent)
-  * [ruTorrent](#rutorrent)
-* [Volumes](#volumes)
-* [Ports](#ports)
-* [Usage](#usage)
-  * [Docker Compose](#docker-compose)
-  * [Command line](#command-line)
-* [Notes](#notes)
-  * [XMLRPC through nginx](#xmlrpc-through-nginx)
-  * [WebDAV](#webdav)
-  * [Populate .htpasswd files](#populate-htpasswd-files)
-  * [Boostrap config `.rtlocal.rc`](#populate-htpasswd-files)
-  * [Override or add a ruTorrent plugin/theme](#override-or-add-a-rutorrent-plugintheme)
-  * [Edit a ruTorrent plugin configuration](#edit-a-rutorrent-plugin-configuration)
-* [Upgrade](#upgrade)
-* [How can I help?](#how-can-i-help)
-* [License](#license)
+- [About](#about)
+- [Features](#features)
+- [Build locally](#build-locally)
+- [Image](#image)
+- [Environment variables](#environment-variables)
+  - [General](#general)
+  - [rTorrent](#rtorrent)
+  - [ruTorrent](#rutorrent)
+- [Volumes](#volumes)
+- [Ports](#ports)
+- [Usage](#usage)
+  - [Docker Compose](#docker-compose)
+  - [Command line](#command-line)
+- [Notes](#notes)
+  - [XMLRPC through nginx](#xmlrpc-through-nginx)
+  - [WebDAV](#webdav)
+  - [Populate .htpasswd files](#populate-htpasswd-files)
+  - [Boostrap config `.rtlocal.rc`](#boostrap-config-rtlocalrc)
+  - [Override or add a ruTorrent plugin/theme](#override-or-add-a-rutorrent-plugintheme)
+  - [Edit a ruTorrent plugin configuration](#edit-a-rutorrent-plugin-configuration)
+- [Upgrade](#upgrade)
+- [How can I help?](#how-can-i-help)
+- [License](#license)
 
 ## Features
 
