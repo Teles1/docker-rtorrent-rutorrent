@@ -302,40 +302,6 @@ RUN set -eux; \
 ENV LANG C.UTF-8
 
 ENV IRSSI_VERSION 1.2.3
-
-RUN set -eux; \
-	\
-	apk add --no-cache --virtual .build-deps \
-		autoconf \
-    automake \
-    coreutils \
-    curl \
-    dpkg-dev dpkg \
-    gcc \
-    glib-dev \
-    gnupg \
-    libc-dev \
-    libssl1.1 \
-    libxml2-dev \
-    libtool \
-    lynx \
-    make \
-    ncurses-dev \
-    openssl \
-    openssl-dev \
-    perl-dev \
-    pkgconf \
-    tar \
-    unzip \
-    wget \
-    zlib \
-	; \
-	\
-	wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz" -O /tmp/irssi.tar.xz; \
-	wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz.asc" -O /tmp/irssi.tar.xz.asc; \
-	export GNUPGHOME="$(mktemp -d)";
-
-
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
 
