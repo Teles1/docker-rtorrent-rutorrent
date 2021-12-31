@@ -364,7 +364,7 @@ RUN irssi --version; \
   cd $HOME;
 
 RUN curl -L http://cpanmin.us | perl - App::cpanminus; \
-  cpanm --force Archive::Zip Net::SSLeay HTML::Entities XML::LibXML Digest::SHA JSON JSON::XS Filesys::DiskSpace; \
+  cpanm --force Archive::Zip Net::SSLeay HTML::Entities XML::LibXML Digest::SHA JSON JSON::XS Filesys::DfPortable; \
   \
   mkdir -p /copy/data/.irssi/scripts/autorun; \
   cd /copy/data/.irssi/scripts; \
