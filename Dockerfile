@@ -365,36 +365,8 @@ RUN set -eux; \
 			| sort -u \
 			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)"; \
-	apk add --virtual .irssi-rundeps $runDeps; \
-	\
-# basic smoke test
-	irssi --version; \
-  cd $HOME; \
-  \
-# Install autodl
-  curl -L http://cpanmin.us | perl - App::cpanminus; \
-  cpanm --force Archive::Zip Net::SSLeay HTML::Entities XML::LibXML Digest::SHA JSON JSON::XS; \
-  \
-  mkdir -p /copy/data/.irssi/scripts/autorun; \
-  cd /copy/data/.irssi/scripts; \
-  curl -sL http://git.io/vlcND | grep -Po '(?<="browser_download_url": ")(.*-v[\d.]+.zip)' | xargs wget --quiet -O autodl-irssi.zip; \
-  unzip -o autodl-irssi.zip; \
-  rm autodl-irssi.zip; \
-  cp autodl-irssi.pl autorun/; \
-  mkdir -p /copy/data/.autodl; \
-  touch /copy/data/.autodl/autodl.cfg; \
-  echo "[options]" > /copy/data/.autodl/autodl.cfg; \
-  echo "rt-address = /var/run/rtorrent/scgi.socket" >> /copy/data/.autodl/autodl.cfg; \
-  echo "gui-server-port = 51499" >> /copy/data/.autodl/autodl.cfg; \
-  echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg;
-  \
-  # cleanup
-  usermod -d /data rtorrent; \
-  rm -rf /tmp/* /var/cache/apk/*
+	apk add --virtual .irssi-rundeps $runDeps;
 
-ENV PATH $PATH:/data/bin
-WORKDIR /data
-ENV HOME /data
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
 
