@@ -331,7 +331,17 @@ RUN set -eux; \
     zlib; \
   wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz" -O /tmp/irssi.tar.xz; \
 	wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz.asc" -O /tmp/irssi.tar.xz.asc; \
-	export GNUPGHOME="$(mktemp -d)";
+	export GNUPGHOME="$(mktemp -d)";\
+  gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys 7EE65E3082A5FB06AC7C368D00CCB587DDBEF0E1; \
+	gpg --batch --verify /tmp/irssi.tar.xz.asc /tmp/irssi.tar.xz; \
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME" /tmp/irssi.tar.xz.asc; \
+	\
+	mkdir -p /usr/src/irssi; \
+	tar -xf /tmp/irssi.tar.xz -C /usr/src/irssi --strip-components 1; \
+	rm /tmp/irssi.tar.xz; \
+	\
+	cd /usr/src/irssi;
 
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
