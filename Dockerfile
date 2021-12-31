@@ -333,7 +333,6 @@ RUN set -eux; \
 	wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz.asc" -O /tmp/irssi.tar.xz.asc; \
 	export GNUPGHOME="$(mktemp -d)";\
   rm -rf "$GNUPGHOME" /tmp/irssi.tar.xz.asc; \
-	\
 	mkdir -p /usr/src/irssi; \
 	tar -xf /tmp/irssi.tar.xz -C /usr/src/irssi --strip-components 1; \
 	rm /tmp/irssi.tar.xz;
@@ -348,6 +347,16 @@ RUN	cd /usr/src/irssi; \
 	; \
 	make -j "$(nproc)"; \
 	make install;
+
+RUN cd /; \
+	rm -rf /usr/src/irssi; \
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --virtual .irssi-rundeps $runDeps;
 
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
