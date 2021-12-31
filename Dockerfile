@@ -302,6 +302,34 @@ RUN set -eux; \
 ENV LANG C.UTF-8
 
 ENV IRSSI_VERSION 1.2.3
+
+RUN set -eux; \
+	\
+	apk add --no-cache --virtual .build-deps \
+		autoconf \
+    automake \
+    coreutils \
+    curl \
+    dpkg-dev dpkg \
+    gcc \
+    glib-dev \
+    gnupg \
+    libc-dev \
+    libssl1.1 \
+    libxml2-dev \
+    libtool \
+    lynx \
+    make \
+    ncurses-dev \
+    openssl \
+    openssl-dev \
+    perl-dev \
+    pkgconf \
+    tar \
+    unzip \
+    wget \
+    zlib;
+
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
 
