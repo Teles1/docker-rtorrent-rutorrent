@@ -388,11 +388,9 @@ RUN set -eux; \
   echo "gui-server-port = 51499" >> /copy/data/.autodl/autodl.cfg; \
   echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg; \
   \
-
 # Update source to verify storage left
 #  rm /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm; \
 #  wget "https://gist.githubusercontent.com/Teles1/7e310a28d48975f49da561cb323d52b1/raw/00e9716a494f8db9bfb1bb0d0fe7ffed89d790e2/MatchedRelease.pm" -O /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm; \
-
 # rutorrent plugin for autodl-irssi
   mkdir -p /copy/data/rutorrent/plugins/; \
   apk add git; \
@@ -402,7 +400,7 @@ RUN set -eux; \
   cp _conf.php conf.php; \
   sed -i 's|$autodlPort = 0;|$autodlPort = 51499;|g' conf.php; \
   sed -i 's|$autodlPassword = "";|$autodlPassword = "password";|g' conf.php; \
-  \
+
 ENV PATH $PATH:/data/bin
 WORKDIR /data
 ENV HOME /data
