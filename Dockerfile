@@ -329,7 +329,8 @@ RUN set -eux; \
     unzip \
     wget \
     zlib \
-    screen; \
+    screen \
+    nano; \
   wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz" -O /tmp/irssi.tar.xz; \
 	wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz.asc" -O /tmp/irssi.tar.xz.asc; \
 	export GNUPGHOME="$(mktemp -d)";\
@@ -391,9 +392,9 @@ RUN mkdir -p /copy/data/rutorrent/plugins/; \
   sed -i 's|$autodlPort = 0;|$autodlPort = 51499;|g' conf.php; \
   sed -i 's|$autodlPassword = "";|$autodlPassword = "password";|g' conf.php;
 
-# install nano for debug
-RUN apk update
-RUN apk add nano
+# cleanup
+RUN usermod -d /data rtorrent; \
+  rm -rf /tmp/* /var/cache/apk/*
 
 ENV PATH $PATH:/data/bin
 WORKDIR /data
