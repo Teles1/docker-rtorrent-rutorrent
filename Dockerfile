@@ -390,6 +390,9 @@ RUN mkdir -p /copy/data/rutorrent/plugins/; \
   sed -i 's|$autodlPort = 0;|$autodlPort = 51499;|g' conf.php; \
   sed -i 's|$autodlPassword = "";|$autodlPassword = "password";|g' conf.php;
 
+# install nano for debug
+RUN apt-get -y update
+RUN apt-get -y install nano
 ENV PATH $PATH:/data/bin
 WORKDIR /data
 ENV HOME /data
