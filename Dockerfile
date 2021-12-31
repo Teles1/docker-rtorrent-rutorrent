@@ -386,7 +386,7 @@ RUN set -eux; \
   echo "[options]" > /copy/data/.autodl/autodl.cfg; \
   echo "rt-address = /var/run/rtorrent/scgi.socket" >> /copy/data/.autodl/autodl.cfg; \
   echo "gui-server-port = 51499" >> /copy/data/.autodl/autodl.cfg; \
-  echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg; \
+  echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg;
 
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
