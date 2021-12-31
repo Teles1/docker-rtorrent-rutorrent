@@ -1,15 +1,15 @@
-ARG ALPINE_S6_TAG=3.14-2.2.0.3
+ARG ALPINE_S6_TAG=3.12-2.2.0.3
 ARG RTORRENT_VERSION=0.9.8
 ARG LIBTORRENT_VERSION=0.13.8
 ARG XMLRPC_VERSION=01.58.00
 ARG LIBSIG_VERSION=3.0.3
-ARG CARES_VERSION=1.17.2
-ARG CURL_VERSION=7.78.0
+ARG CARES_VERSION=1.14.0
+ARG CURL_VERSION=7.68.0
 ARG MKTORRENT_VERSION=1.1
 ARG RUTORRENT_VERSION=3.10
 ARG RUTORRENT_REVISION=954479ffd00eb58ad14f9a667b3b9b1e108e80a2
 ARG GEOIP2_PHPEXT_VERSION=1.1.1
-ARG NGINX_VERSION=1.21.1
+ARG NGINX_VERSION=1.19.7
 ARG NGINX_DAV_VERSION=3.0.0
 ARG NGINX_UID=102
 ARG NGINX_GID=102
@@ -217,6 +217,7 @@ RUN tree ${DIST_PATH}
 
 ARG ALPINE_S6_TAG
 FROM crazymax/alpine-s6:${ALPINE_S6_TAG}
+LABEL maintainer="CrazyMax"
 
 COPY --from=builder /dist /
 COPY --from=download --chown=nobody:nogroup /dist/rutorrent /var/www/rutorrent
@@ -260,7 +261,6 @@ RUN apk --update --no-cache add \
     php7-mbstring \
     php7-openssl \
     php7-phar \
-    php7-posix \
     php7-session \
     php7-sockets \
     php7-xml \
@@ -400,6 +400,24 @@ RUN set -eux; \
   cp _conf.php conf.php; \
   sed -i 's|$autodlPort = 0;|$autodlPort = 51499;|g' conf.php; \
   sed -i 's|$autodlPassword = "";|$autodlPassword = "password";|g' conf.php; \
+  \
+# Pyrocore
+  apk add --no-cache python2 \
+    python2-dev \
+    screen; \
+	python -m ensurepip; \
+	rm -r /usr/lib/python*/ensurepip; \
+  pip install --upgrade pip setuptools virtualenv; \
+	mkdir -p $HOME/bin $HOME/.local && \
+	git clone "https://github.com/pyroscope/pyrocore.git" $HOME/.local/pyroscope && \
+	$HOME/.local/pyroscope/update-to-head.sh && \
+	$HOME/bin/pyroadmin --version && \
+	$HOME/bin/pyroadmin --create-config && \
+	sed -i "s|rtorrent_rc = ~/.rtorrent.rc|rtorrent_rc = ~/rtorrent/.rtorrent.rc|g"  $HOME/.pyroscope/config.ini && \
+  \
+  # cleanup
+  usermod -d /data rtorrent; \
+  rm -rf /tmp/* /var/cache/apk/*
 
 ENV PATH $PATH:/data/bin
 WORKDIR /data

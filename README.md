@@ -1,3 +1,11 @@
+Based on crazy-max's [rtorrent-rutorrent](https://github.com/crazy-max/docker-rtorrent-rutorrent) Docker image, with added support for [autodl-irssi](https://github.com/autodl-community/autodl-irssi) and [pyrocore](https://github.com/autodl-community/autodl-irssi).
+
+If you're moving from another rtorrent/rutorrent image to this, you might want to [add missing data to your rtorrent session](https://pyrocore.readthedocs.io/en/latest/setup.html#adding-missing-data-to-your-rtorrent-session).
+
+Below is the README from crazy-max's image.
+
+___
+
 <p align="center"><a href="https://github.com/crazy-max/docker-rtorrent-rutorrent" target="_blank"><img height="128" src="https://raw.githubusercontent.com/crazy-max/docker-rtorrent-rutorrent/master/.github/docker-rtorrent-rutorrent.jpg"></a></p>
 
 <p align="center">
@@ -18,29 +26,29 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 ___
 
-* [Features](#features)
-* [Build locally](#build-locally)
-* [Image](#image)
-* [Environment variables](#environment-variables)
-  * [General](#general)
-  * [rTorrent](#rtorrent)
-  * [ruTorrent](#rutorrent)
-* [Volumes](#volumes)
-* [Ports](#ports)
-* [Usage](#usage)
-  * [Docker Compose](#docker-compose)
-  * [Command line](#command-line)
-* [Notes](#notes)
-  * [XMLRPC through nginx](#xmlrpc-through-nginx)
-  * [WebDAV](#webdav)
-  * [Populate .htpasswd files](#populate-htpasswd-files)
-  * [Boostrap config `.rtlocal.rc`](#boostrap-config-rtlocalrc)
-  * [Override or add a ruTorrent plugin/theme](#override-or-add-a-rutorrent-plugintheme)
-  * [Edit a ruTorrent plugin configuration](#edit-a-rutorrent-plugin-configuration)
-  * [Increase Docker timeout to allow rTorrent to shutdown gracefully](#increase-docker-timeout-to-allow-rtorrent-to-shutdown-gracefully)
-* [Upgrade](#upgrade)
-* [Contributing](#contributing)
-* [License](#license)
+- [About](#about)
+- [Features](#features)
+- [Build locally](#build-locally)
+- [Image](#image)
+- [Environment variables](#environment-variables)
+  - [General](#general)
+  - [rTorrent](#rtorrent)
+  - [ruTorrent](#rutorrent)
+- [Volumes](#volumes)
+- [Ports](#ports)
+- [Usage](#usage)
+  - [Docker Compose](#docker-compose)
+  - [Command line](#command-line)
+- [Notes](#notes)
+  - [XMLRPC through nginx](#xmlrpc-through-nginx)
+  - [WebDAV](#webdav)
+  - [Populate .htpasswd files](#populate-htpasswd-files)
+  - [Boostrap config `.rtlocal.rc`](#boostrap-config-rtlocalrc)
+  - [Override or add a ruTorrent plugin/theme](#override-or-add-a-rutorrent-plugintheme)
+  - [Edit a ruTorrent plugin configuration](#edit-a-rutorrent-plugin-configuration)
+- [Upgrade](#upgrade)
+- [How can I help?](#how-can-i-help)
+- [License](#license)
 
 ## Features
 
@@ -109,13 +117,11 @@ Image: crazymax/rtorrent-rutorrent:latest
 * `CLEAR_ENV`: Clear environment in FPM workers (default `yes`)
 * `OPCACHE_MEM_SIZE`: PHP OpCache memory consumption (default `128`)
 * `MAX_FILE_UPLOADS`: The maximum number of files allowed to be uploaded simultaneously (default `50`)
-* `AUTH_DELAY`: The time in seconds to wait for Basic Auth (default `0s`)
 * `REAL_IP_FROM`: Trusted addresses that are known to send correct replacement addresses (default `0.0.0.0/32`)
 * `REAL_IP_HEADER`: Request header field whose value will be used to replace the client address (default `X-Forwarded-For`)
 * `LOG_IP_VAR`: Use another variable to retrieve the remote IP address for access [log_format](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) on Nginx. (default `remote_addr`)
 * `XMLRPC_AUTHBASIC_STRING`: Message displayed during validation of XMLRPC Basic Auth (default `rTorrent XMLRPC restricted access`)
 * `XMLRPC_PORT`: XMLRPC port through nginx over SCGI socket (default `8000`)
-* `XMLRPC_SIZE_LIMIT`: Maximum body size of XMLRPC calls (default `1M`)
 * `RUTORRENT_AUTHBASIC_STRING`: Message displayed during validation of ruTorrent Basic Auth (default `ruTorrent restricted access`)
 * `RUTORRENT_PORT`: ruTorrent HTTP port (default `8080`)
 * `WEBDAV_AUTHBASIC_STRING`: Message displayed during validation of WebDAV Basic Auth (default `WebDAV restricted access`)
@@ -215,7 +221,7 @@ populate this file with a user / password.
 
 ### WebDAV
 
-WebDAV allows you to retrieve your completed torrent files in `/downloads/complete` on port `9000`. Like XMLRPC, these
+WebDAV allows you to retrieve your completed torrent files in `/downloads/completed` on port `9000`. Like XMLRPC, these
 requests can be secured with basic authentication through the `/passwd/webdav.htpasswd` file in which you will need to
 add a username with his password. See below to populate this file with a user / password.
 
@@ -244,7 +250,7 @@ imported. This configuration cannot be changed unless you rebuild the image or o
 * A config layout for the rTorrent's instance you can use in your `.rtorrent.rc`:
   * `cfg.basedir`: Home directory of rtorrent (`/data/rtorrent/`)
   * `cfg.download`: Download directory (`/downloads/`)
-  * `cfg.download_complete`: Completed downloads (`/downloads/complete/`)
+  * `cfg.download_complete`: Completed downloads (`/downloads/completed/`)
   * `cfg.download_temp`:  Downloads in progress (`/downloads/temp/`)
   * `cfg.logs`: Logs directory (`/data/rtorrent/log/`)
   * `cfg.session`: Session directory (`/data/rtorrent/.session/`)
@@ -290,13 +296,6 @@ $partitionDirectory = null;	// if null, then we will check rtorrent download dir
 
 > ⚠️ Container has to be restarted to propagate changes
 
-### Increase Docker timeout to allow rTorrent to shutdown gracefully
-
-After issuing a shutdown command, Docker waits 10 seconds for the container to exit before it is killed.  If you are a seeding many torrents, rTorrent may be unable to gracefully close within that time period.  As a result, rTorrent is closed forcefully and the lockfile isn't removed.  This stale lockfile will prevent rTorrent from restarting until the lockfile is removed manually.
-
-The timeout period can be extended by either adding the parameter `-t XX` to the docker command or `stop_grace_period: XXs` in docker-compose.yml, where `XX` is the number of seconds to wait for a graceful shutdown.
-
-
 ## Upgrade
 
 To upgrade, pull the newer image and launch the container:
@@ -306,11 +305,12 @@ docker-compose pull
 docker-compose up -d
 ```
 
-## Contributing
+## How can I help?
 
-Want to contribute? Awesome! The most basic way to show your support is to star the project, or to raise issues. You
-can also support this project by [**becoming a sponsor on GitHub**](https://github.com/sponsors/crazy-max) or by making
-a [Paypal donation](https://www.paypal.me/crazyws) to ensure this journey continues indefinitely!
+All kinds of contributions are welcome :raised_hands:! The most basic way to show your support is to star :star2:
+the project, or to raise issues :speech_balloon: You can also support this project by
+[**becoming a sponsor on GitHub**](https://github.com/sponsors/crazy-max) :clap: or by making a
+[Paypal donation](https://www.paypal.me/crazyws) to ensure this journey continues indefinitely! :rocket:
 
 Thanks again for your support, it is much appreciated! :pray:
 
