@@ -339,11 +339,11 @@ RUN set -eux; \
 	\
 	mkdir -p /usr/src/irssi; \
 	tar -xf /tmp/irssi.tar.xz -C /usr/src/irssi --strip-components 1; \
-	rm /tmp/irssi.tar.xz; \
-	cd /usr/src/irssi; \
-  gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
-	./configure \
-		--build="$gnuArch" \
+	rm /tmp/irssi.tar.xz;
+
+RUN	cd /usr/src/irssi; \
+    ./configure \
+		--build="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
 		--enable-true-color \
 		--with-bot \
 		--with-proxy \
