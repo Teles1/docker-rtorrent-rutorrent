@@ -373,7 +373,7 @@ RUN set -eux; \
   \
 # Install autodl
   curl -L http://cpanmin.us | perl - App::cpanminus; \
-  cpanm --force Archive::Zip Net::SSLeay HTML::Entities XML::LibXML Digest::SHA JSON JSON::XS; \
+  cpanm --force Archive::Zip Net::SSLeay HTML::Entities XML::LibXML Digest::SHA JSON JSON::XS Filesys::DiskSpace; \
   \
   mkdir -p /copy/data/.irssi/scripts/autorun; \
   cd /copy/data/.irssi/scripts; \
@@ -389,10 +389,8 @@ RUN set -eux; \
   echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg; \
   \
 
-# Install Filesys::DiskSpace
-  cpanm Filesys::DiskSpace; \
-
 # Update source to verify storage left
+  rm /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm; \
   wget "https://gist.githubusercontent.com/Teles1/7e310a28d48975f49da561cb323d52b1/raw/00e9716a494f8db9bfb1bb0d0fe7ffed89d790e2/MatchedRelease.pm" -O /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm; \
 
 # rutorrent plugin for autodl-irssi
