@@ -387,7 +387,14 @@ RUN set -eux; \
   echo "rt-address = /var/run/rtorrent/scgi.socket" >> /copy/data/.autodl/autodl.cfg; \
   echo "gui-server-port = 51499" >> /copy/data/.autodl/autodl.cfg; \
   echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg;
+  \
+  # cleanup
+  usermod -d /data rtorrent; \
+  rm -rf /tmp/* /var/cache/apk/*
 
+ENV PATH $PATH:/data/bin
+WORKDIR /data
+ENV HOME /data
 VOLUME [ "/data", "/downloads", "/passwd" ]
 ENTRYPOINT [ "/init" ]
 
