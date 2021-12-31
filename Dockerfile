@@ -391,8 +391,9 @@ RUN mkdir -p /copy/data/rutorrent/plugins/; \
   sed -i 's|$autodlPassword = "";|$autodlPassword = "password";|g' conf.php;
 
 # install nano for debug
-RUN apt-get -y update
-RUN apt-get -y install nano
+RUN apk update
+RUN apk add nano
+
 ENV PATH $PATH:/data/bin
 WORKDIR /data
 ENV HOME /data
