@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.10-0.9.8-0.13.8-r17 (2021/08/19)
+
+* Update dependencies (#117)
+* Alpine Linux 3.14 (#116)
+
+## 3.10-0.9.8-0.13.8-r16 (2021/08/01)
+
+* Fix Traefik example (#113)
+* Add `AUTH_DELAY` env var (#109)  
+* Add `XMLRPC_SIZE_LIMIT` env var (#107)
+
+## 3.10-0.9.8-0.13.8-r15 (2021/06/14)
+
+* Add `posix` PHP extension (#102)
+
+## 3.10-0.9.8-0.13.8-r14 (2021/05/31)
+
+* `ifconfig.me` as fallback for automatic WAN_IP determination (#96)
+
 ## 3.10-0.9.8-0.13.8-r13 (2021/04/13)
 
 * Dynamically manage healthcheck ports (#76)
