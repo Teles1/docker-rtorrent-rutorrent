@@ -328,7 +328,8 @@ RUN set -eux; \
     tar \
     unzip \
     wget \
-    zlib; \
+    zlib \
+    screen; \
   wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz" -O /tmp/irssi.tar.xz; \
 	wget "https://github.com/irssi/irssi/releases/download/${IRSSI_VERSION}/irssi-${IRSSI_VERSION}.tar.xz.asc" -O /tmp/irssi.tar.xz.asc; \
 	export GNUPGHOME="$(mktemp -d)";\
