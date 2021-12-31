@@ -1,4 +1,4 @@
-Based on crazy-max's [rtorrent-rutorrent](https://github.com/crazy-max/docker-rtorrent-rutorrent) Docker image, with added support for [autodl-irssi](https://github.com/autodl-community/autodl-irssi) and [pyrocore](https://github.com/autodl-community/autodl-irssi).
+ Based on crazy-max's [rtorrent-rutorrent](https://github.com/crazy-max/docker-rtorrent-rutorrent) Docker image, with added support for [autodl-irssi](https://github.com/autodl-community/autodl-irssi) and [pyrocore](https://github.com/autodl-community/autodl-irssi).
 
 If you're moving from another rtorrent/rutorrent image to this, you might want to [add missing data to your rtorrent session](https://pyrocore.readthedocs.io/en/latest/setup.html#adding-missing-data-to-your-rtorrent-session).
 
