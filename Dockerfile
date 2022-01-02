@@ -380,7 +380,7 @@ RUN curl -L http://cpanmin.us | perl - App::cpanminus; \
   echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg;
 
 #Replace MatchedRelease.pm 
-RUN wget "https://gist.githubusercontent.com/Teles1/7e310a28d48975f49da561cb323d52b1/raw/00e9716a494f8db9bfb1bb0d0fe7ffed89d790e2/MatchedRelease.pm" -O /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm;
+RUN wget "https://gist.githubusercontent.com/Teles1/7e310a28d48975f49da561cb323d52b1/raw/MatchedRelease.pm" -O /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm;
 
 # rutorrent plugin for autodl-irssi
 RUN mkdir -p /copy/data/rutorrent/plugins/; \
