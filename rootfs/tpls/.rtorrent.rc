@@ -67,5 +67,9 @@ method.set_key = event.download.finished,move_complete,"d.move_to_complete=$d.da
 
 # Erase data when torrent deleted (no need erasedata plugin on ruTorrent)
 method.set_key = event.download.erased,delete_erased,"execute=rm,-rf,--,$d.data_path="
+
 # Making sure to allocate data before downloading
 system.file.allocate.set=1
+
+# Disable hash check by default
+check_hash = no
