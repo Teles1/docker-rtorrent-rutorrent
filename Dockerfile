@@ -368,7 +368,7 @@ RUN curl -L http://cpanmin.us | perl - App::cpanminus; \
   \
   mkdir -p /copy/data/.irssi/scripts/autorun; \
   cd /copy/data/.irssi/scripts; \
-  curl -sL http://git.io/vlcND | grep -Po '(?<="browser_download_url": ")(.*-v[\d.]+.zip)' | xargs wget --quiet -O autodl-irssi.zip; \
+  curl -sL https://api.github.com/repos/Teles1/autodl-irssi/releases/latest | grep -Po '(?<="browser_download_url": ")(.*-v[\d.]+.zip)' | xargs wget --quiet -O autodl-irssi.zip; \
   unzip -o autodl-irssi.zip; \
   rm autodl-irssi.zip; \
   cp autodl-irssi.pl autorun/; \
@@ -378,9 +378,6 @@ RUN curl -L http://cpanmin.us | perl - App::cpanminus; \
   echo "rt-address = /var/run/rtorrent/scgi.socket" >> /copy/data/.autodl/autodl.cfg; \
   echo "gui-server-port = 51499" >> /copy/data/.autodl/autodl.cfg; \
   echo "gui-server-password = password" >> /copy/data/.autodl/autodl.cfg;
-
-#Replace MatchedRelease.pm 
-RUN wget "https://gist.githubusercontent.com/Teles1/7e310a28d48975f49da561cb323d52b1/raw/00e9716a494f8db9bfb1bb0d0fe7ffed89d790e2/MatchedRelease.pm" -O /copy/data/.irssi/scripts/AutodlIrssi/MatchedRelease.pm;
 
 # rutorrent plugin for autodl-irssi
 RUN mkdir -p /copy/data/rutorrent/plugins/; \
